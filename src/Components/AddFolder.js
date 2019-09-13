@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import ValidateError from './ValidateError';
 import NotefulContext from '../NotefulContext';
 
-function addNote(newNote, callback, props) {
-  fetch(`http://localhost:9090/notes/`, {
+function addFolder(newFolder, callback, props) {
+  fetch(`http://localhost:9090/folders/`, {
     method: 'POST',
 
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(newNote),
+    body: JSON.stringify(newFolder),
   })
     .then((res) => {
       if (!res.ok) {
@@ -21,27 +21,20 @@ function addNote(newNote, callback, props) {
     })
     .then((data) => {
       callback(data);
-      props.history.push('/');
+      props.history.push(`/folder/${data.id}`);
     })
     .catch((error) => {
       console.error(error);
     });
 }
 
-export default class AddNote extends Component {
+export default class AddFolder extends Component {
   static contextType = NotefulContext;
+
   constructor(props) {
     super(props);
     this.state = {
       name: {
-        value: '',
-        touched: false,
-      },
-      content: {
-        value: '',
-        touched: false,
-      },
-      folder: {
         value: '',
         touched: false,
       },
@@ -52,28 +45,13 @@ export default class AddNote extends Component {
     this.setState({ name: { value: name, touched: true } });
   }
 
-  updateContent(content) {
-    this.setState({
-      content: { value: content, touched: true },
-    });
-  }
-
-  updateFolder(folder) {
-    this.setState({
-      folder: { value: folder, touched: true },
-    });
-  }
-
   handleSubmit(event) {
     event.preventDefault();
-    const { name, content, folder } = this.state;
-    const newNote = {
+    const { name } = this.state;
+    const newFolder = {
       name: name.value,
-      content: content.value,
-      folderId: folder.value,
-      modified: new Date(),
     };
-    addNote(newNote, this.context.addNote, this.props);
+    addFolder(newFolder, this.context.addFolder, this.props);
   }
 
   validateName() {
@@ -84,8 +62,6 @@ export default class AddNote extends Component {
   }
 
   render() {
-    const { folders } = this.context;
-
     return (
       <form className="Add-Form" onSubmit={(e) => this.handleSubmit(e)}>
         <h2>Add a Note</h2>
@@ -102,32 +78,6 @@ export default class AddNote extends Component {
           {this.state.name.touched && (
             <ValidateError message={this.validateName()} />
           )}
-        </div>
-        <div className="form-group">
-          <label htmlFor="Content">Note Content *</label>
-          <input
-            type="textarea"
-            className="registration__control"
-            name="Content"
-            id="Content"
-            onChange={(e) => this.updateContent(e.target.value)}
-          />
-          <div className="Add-Hint">Cannot be left blank</div>
-        </div>
-        <div className="form-group">
-          <label htmlFor="Folders">Select a folder*</label>
-          <select
-            className="Add__control"
-            name="Folders"
-            id="Folders"
-            onChange={(e) => this.updateFolder(e.target.value)}
-          >
-            <option value={null}>...</option>
-            {folders.map((folder) => {
-              // return <option value={folder.id} selected={index===0 `${folder.name}`}>{folder.name}</option>
-              return <option value={folder.id}>{folder.name}</option>;
-            })}
-          </select>
         </div>
 
         <div className="Add-form button group">

@@ -10,8 +10,9 @@ import NoteList from './Components/NoteList';
 import NoteDetailedView from './Components/NoteDetailedView';
 import NotFound from './Components/NotFound';
 import NotefulContext from './NotefulContext';
-import AddNote from './Components/AddNote'
-import BackButton from './Components/BackButton'
+import AddNote from './Components/AddNote';
+import AddFolder from './Components/AddFolder';
+import BackButton from './Components/BackButton';
 
 export default class App extends Component {
   static contextType = NotefulContext;
@@ -33,9 +34,14 @@ export default class App extends Component {
   };
 
   handleAddNote = (note) => {
-    const newNotes = [...this.state.notes, note]
-    this.setState({notes: newNotes})
-  }
+    const newNotes = [...this.state.notes, note];
+    this.setState({ notes: newNotes });
+  };
+
+  handleAddFolder = (folder) => {
+    const newFolders = [...this.state.folders, folder];
+    this.setState({ folders: newFolders });
+  };
 
   getFolders() {
     fetch(`http://localhost:9090/folders`)
@@ -80,27 +86,30 @@ export default class App extends Component {
       notes: this.state.notes,
       deleteNote: this.handleDeleteNote,
       addNote: this.handleAddNote,
+      addFolder: this.handleAddFolder,
     };
 
     return (
-      <div className='app'>
+      <div className="app">
         <Header />
         <NotefulContext.Provider value={contextValue}>
           <Sidebar>
             <Switch>
-              <Route exact path='/' component={FolderList} />
-              <Route path='/folder/:folderId' component={FolderList} />
-              <Route path='/note/:noteId' component={FolderDetailedView} />
-              <Route path="/add-note" component={BackButton}/>
+              <Route exact path="/" component={FolderList} />
+              <Route path="/folder/:folderId" component={FolderList} />
+              <Route path="/note/:noteId" component={FolderDetailedView} />
+              <Route path="/add-note" component={BackButton} />
+              <Route path="/add-folder" component={BackButton} />
               <Route component={NotFound} />
             </Switch>
           </Sidebar>
           <Main>
             <Switch>
-              <Route exact path='/' component={NoteList} />
-              <Route path='/folder/:folderId' component={NoteList} />
-              <Route path='/note/:noteId' component={NoteDetailedView} />
-              <Route path='/add-note' component={AddNote}/>
+              <Route exact path="/" component={NoteList} />
+              <Route path="/folder/:folderId" component={NoteList} />
+              <Route path="/note/:noteId" component={NoteDetailedView} />
+              <Route path="/add-note" component={AddNote} />
+              <Route path="/add-folder" component={AddFolder} />
               <Route component={NotFound} />
             </Switch>
           </Main>
