@@ -10,6 +10,8 @@ import NoteList from './Components/NoteList';
 import NoteDetailedView from './Components/NoteDetailedView';
 import NotFound from './Components/NotFound';
 import NotefulContext from './NotefulContext';
+import AddNote from './Components/AddNote'
+import BackButton from './Components/BackButton'
 
 export default class App extends Component {
   static contextType = NotefulContext;
@@ -83,6 +85,7 @@ export default class App extends Component {
               <Route exact path='/' component={FolderList} />
               <Route path='/folder/:folderId' component={FolderList} />
               <Route path='/note/:noteId' component={FolderDetailedView} />
+              <Route path="/add-note" component={BackButton}/>
               <Route component={NotFound} />
             </Switch>
           </Sidebar>
@@ -91,6 +94,7 @@ export default class App extends Component {
               <Route exact path='/' component={NoteList} />
               <Route path='/folder/:folderId' component={NoteList} />
               <Route path='/note/:noteId' component={NoteDetailedView} />
+              <Route path='/add-note' component={AddNote}/>
               <Route component={NotFound} />
             </Switch>
           </Main>
