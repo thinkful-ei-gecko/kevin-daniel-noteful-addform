@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {withRouter} from 'react-router'
+import PropTypes from 'prop-types';
 
 class BackButton extends Component {
   render() {
@@ -16,3 +17,8 @@ class BackButton extends Component {
 
 
 export default withRouter (BackButton)
+
+
+BackButton.propTypes = {
+  history: PropTypes.object.isRequired
+}
