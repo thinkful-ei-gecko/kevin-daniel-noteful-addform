@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import NoteItem from './NoteItem';
 import NotefulContext from '../NotefulContext';
-import AddNote from './AddNote'
 import { Link } from 'react-router-dom';
 
 

@@ -32,6 +32,11 @@ export default class App extends Component {
     });
   };
 
+  handleAddNote = (note) => {
+    const newNotes = [...this.state.notes, note]
+    this.setState({notes: newNotes})
+  }
+
   getFolders() {
     fetch(`http://localhost:9090/folders`)
       .then((response) => {
@@ -74,6 +79,7 @@ export default class App extends Component {
       folders: this.state.folders,
       notes: this.state.notes,
       deleteNote: this.handleDeleteNote,
+      addNote: this.handleAddNote,
     };
 
     return (

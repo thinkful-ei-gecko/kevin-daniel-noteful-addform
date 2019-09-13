@@ -1,28 +1,35 @@
-import React, { Component } from 'react'
-import ValidateError from './ValidateError'
+import React, { Component } from "react";
+import ValidateError from "./ValidateError";
+import NotefulContext from "../NotefulContext";
+import {Link} from 'react-router-dom'
 
-
-function addNote (newNote, callback) {
+function addNote(newNote, callback) {
   fetch(`http://localhost:9090/notes/`, {
-    method: 'POST',
+    method: "POST",
+
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(newNote)
   })
-    .then((res) => {
+    .then(res => {
       if (!res.ok) {
-        return res.json().then((error) => {
+        return res.json().then(error => {
           throw error;
         });
       }
       return res.json();
     })
-    .then((data) => {
+    .then(data => {
       callback(newNote);
     })
-    .catch((error) => {
+    .catch(error => {
       console.error(error);
     });
 }
 
 export default class AddNote extends Component {
+  static contextType = NotefulContext;
   constructor(props) {
     super(props);
     this.state = {
@@ -53,28 +60,32 @@ export default class AddNote extends Component {
 
   updateFolder(folder) {
     this.setState({
-      folder: {value: folder, touched: true }
-    })
+      folder: { value: folder, touched: true }
+    });
   }
-
 
   handleSubmit(event) {
     event.preventDefault();
     const { name, content, folder } = this.state;
-
-    console.log("Name: ", name.value);
-    console.log("content: ", content.value);
-    console.log("Folder:", folder.value)
+    const newNote = {
+      name: name.value,
+      content: content.value,
+      folderId: folder.value,
+      modified: new Date()
+    };
+    addNote(newNote, this.context.addNote)
   }
 
   validateName() {
     const name = this.state.name.value.trim();
     if (name.length === 0) {
+      return "Name is required";
     }
   }
 
   render() {
-  
+    const { folders } = this.context;
+
     return (
       <form className="Add-Form" onSubmit={e => this.handleSubmit(e)}>
         <h2>Add a Note</h2>
@@ -89,9 +100,8 @@ export default class AddNote extends Component {
             onChange={e => this.updateName(e.target.value)}
           />
           {this.state.name.touched && (
-            <ValidateError message = {this.validateName()}/>
-          )
-            }
+            <ValidateError message={this.validateName()} />
+          )}
         </div>
         <div className="form-group">
           <label htmlFor="Content">Note Content *</label>
@@ -102,10 +112,7 @@ export default class AddNote extends Component {
             id="Content"
             onChange={e => this.updateContent(e.target.value)}
           />
-          <div className="Add-Hint">
-            Cannot be left blank
-          </div>
-          
+          <div className="Add-Hint">Cannot be left blank</div>
         </div>
         <div className="form-group">
           <label htmlFor="Folders">Select a folder*</label>
@@ -113,24 +120,26 @@ export default class AddNote extends Component {
             className="Add__control"
             name="Folders"
             id="Folders"
-            onChange={e => this.updateFolders(e.target.value)}
-          />
-          
+            onChange={e => this.updateFolder(e.target.value)}
+          >
+            {folders.map(folder => {
+              return <option value={folder.id}>{folder.name}</option>;
+            })}
+          </select>
         </div>
 
         <div className="Add-form button group">
           <button type="reset" className="AddForm__button">
             Cancel
           </button>
-          <button
-            type="submit"
-            className="AddForm__button"
-            disabled={
-              this.validateName()
-            }
-          >
-            Save
-          </button>
+            <button
+              type="submit"
+              className="AddForm__button"
+              disabled={this.validateName()
+              }
+            >
+              Save
+            </button>
         </div>
       </form>
     );
