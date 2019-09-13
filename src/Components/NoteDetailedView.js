@@ -29,7 +29,7 @@ class NoteDetailedView extends Component {
   render() {
     const { notes, deleteNote } = this.context;
     const { match } = this.props;
-    const note = notes.find((note) => note.id === match.params.noteId);
+    const note = notes.find((note) => note.id.toString() === match.params.noteId);
 
     return (
       <div className='main__note-detailed-view' key={note.id}>

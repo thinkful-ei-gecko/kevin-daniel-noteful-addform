@@ -83,6 +83,14 @@ export default class AddNote extends Component {
     }
   }
 
+  validateFolder() {
+    const folder = this.state.folder.value.trim();
+    if (folder.length === 0) {
+      return 'Must specify an existing folder';
+    }
+  }
+
+
   render() {
     const { folders } = this.context;
 
@@ -122,12 +130,15 @@ export default class AddNote extends Component {
             id="Folders"
             onChange={(e) => this.updateFolder(e.target.value)}
           >
-            <option value={null}>...</option>
-            {folders.map((folder) => {
+            <option value={''}>...</option>
+            {folders.map((folder, index) => {
               // return <option value={folder.id} selected={index===0 `${folder.name}`}>{folder.name}</option>
-              return <option value={folder.id}>{folder.name}</option>;
+              return <option value={folder.id} key={index}>{folder.name}</option>;
             })}
           </select>
+          {this.state.folder.touched && (
+            <ValidateError message={this.validateFolder()} />
+          )}
         </div>
 
         <div className="Add-form button group">
@@ -137,7 +148,7 @@ export default class AddNote extends Component {
           <button
             type="submit"
             className="AddForm__button"
-            disabled={this.validateName()}
+            disabled={this.validateName() || this.validateFolder()}
           >
             Save
           </button>

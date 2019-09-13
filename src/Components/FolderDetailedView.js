@@ -12,7 +12,7 @@ class FolderDetailedView extends Component {
     const folder = folders.find(
       (folder) =>
         folder.id ===
-        notes.find((note) => note.id === match.params.noteId).folderId
+        notes.find((note) => note.id.toString() === match.params.noteId).folderId
     );
 
     return (
