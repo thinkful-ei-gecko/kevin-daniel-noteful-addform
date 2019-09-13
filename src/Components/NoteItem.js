@@ -29,6 +29,7 @@ export default class NoteItem extends Component {
   render() {
     const { id, name, modified } = this.props.note;
 
+
     return (
       <div className='main__note-item' key={id}>
         <Link to={`/note/${id}`}>
@@ -44,6 +45,7 @@ export default class NoteItem extends Component {
           Delete note
         </button>
       </div>
+
     );
   }
 }

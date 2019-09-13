@@ -13,6 +13,7 @@ import NotefulContext from './NotefulContext';
 import AddNote from './Components/AddNote';
 import AddFolder from './Components/AddFolder';
 import BackButton from './Components/BackButton';
+import ErrorBoundary from './Components/ErrorBoundary'
 
 export default class App extends Component {
   static contextType = NotefulContext;
@@ -91,6 +92,7 @@ export default class App extends Component {
 
     return (
       <div className="app">
+      <ErrorBoundary>
         <Header />
         <NotefulContext.Provider value={contextValue}>
           <Sidebar>
@@ -114,6 +116,7 @@ export default class App extends Component {
             </Switch>
           </Main>
         </NotefulContext.Provider>
+        </ErrorBoundary>
       </div>
     );
   }

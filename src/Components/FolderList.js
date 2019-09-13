@@ -9,7 +9,7 @@ export default function FolderList() {
       {({ folders }) => (
         <>
           <li className="sidebar__folder-list">
-            {folders.map((folder) => (
+            {{folders}.map(({folder}) => (
               <FolderItem folder={folder} key={folder.id} />
             ))}
           </li>
