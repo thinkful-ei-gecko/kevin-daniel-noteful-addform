@@ -3,8 +3,7 @@ import { withRouter } from 'react-router';
 import NoteItem from './NoteItem';
 import NotefulContext from '../NotefulContext';
 import { Link } from 'react-router-dom';
-
-
+import PropTypes from 'prop-types';
 
 class NoteList extends Component {
   static contextType = NotefulContext;
@@ -36,3 +35,8 @@ class NoteList extends Component {
 }
 
 export default withRouter(NoteList);
+
+NoteList.propTypes = {
+  match: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired
+};

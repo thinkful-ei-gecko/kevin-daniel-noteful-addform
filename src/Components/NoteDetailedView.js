@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import NotefulContext from '../NotefulContext';
+import PropTypes from 'prop-types';
 
 function deleteNoteRequest(noteId, callback) {
   fetch(`http://localhost:9090/notes/${noteId}`, {
@@ -50,3 +51,7 @@ class NoteDetailedView extends Component {
 }
 
 export default withRouter(NoteDetailedView);
+
+NoteDetailedView.propTypes = {
+  match: PropTypes.object.isRequired,
+};

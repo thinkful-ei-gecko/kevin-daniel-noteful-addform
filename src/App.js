@@ -13,7 +13,7 @@ import NotefulContext from './NotefulContext';
 import AddNote from './Components/AddNote';
 import AddFolder from './Components/AddFolder';
 import BackButton from './Components/BackButton';
-import ErrorBoundary from './Components/ErrorBoundary'
+import ErrorBoundary from './Components/ErrorBoundary';
 
 export default class App extends Component {
   static contextType = NotefulContext;

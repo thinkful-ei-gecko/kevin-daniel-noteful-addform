@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import NotefulContext from '../NotefulContext';
-import Moment from 'react-moment'
+import Moment from 'react-moment';
+import PropTypes from 'prop-types';
 
 function deleteNoteRequest(noteId, callback) {
   fetch(`http://localhost:9090/notes/${noteId}`, {
@@ -29,7 +30,6 @@ export default class NoteItem extends Component {
   render() {
     const { id, name, modified } = this.props.note;
 
-
     return (
       <div className='main__note-item' key={id}>
         <Link to={`/note/${id}`}>
@@ -49,3 +49,15 @@ export default class NoteItem extends Component {
     );
   }
 }
+
+NoteItem.propTypes = {
+  note: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    modified: PropTypes.string.isRequired
+  })
+};
+
+NoteItem.propTypes = {
+  note: PropTypes.object.isRequired
+};

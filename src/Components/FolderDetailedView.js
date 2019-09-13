@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router';
 import NotefulContext from '../NotefulContext';
+import PropTypes from 'prop-types';
 
 class FolderDetailedView extends Component {
   static contextType = NotefulContext;
@@ -27,3 +28,8 @@ class FolderDetailedView extends Component {
 }
 
 export default withRouter(FolderDetailedView);
+
+FolderDetailedView.propTypes = {
+  match: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired
+};
