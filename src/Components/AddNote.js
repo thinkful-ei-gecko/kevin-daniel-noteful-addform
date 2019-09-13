@@ -3,7 +3,7 @@ import ValidateError from "./ValidateError";
 import NotefulContext from "../NotefulContext";
 import {Link} from 'react-router-dom'
 
-function addNote(newNote, callback) {
+function addNote(newNote, callback, props) {
   fetch(`http://localhost:9090/notes/`, {
     method: "POST",
 
@@ -21,7 +21,8 @@ function addNote(newNote, callback) {
       return res.json();
     })
     .then(data => {
-      callback(newNote);
+      callback(data);
+      props.history.push('/')
     })
     .catch(error => {
       console.error(error);
@@ -73,7 +74,7 @@ export default class AddNote extends Component {
       folderId: folder.value,
       modified: new Date()
     };
-    addNote(newNote, this.context.addNote)
+    addNote(newNote, this.context.addNote, this.props)
   }
 
   validateName() {
@@ -122,7 +123,9 @@ export default class AddNote extends Component {
             id="Folders"
             onChange={e => this.updateFolder(e.target.value)}
           >
-            {folders.map(folder => {
+            <option value={null}>...</option>
+            {folders.map((folder) => {
+                  // return <option value={folder.id} selected={index===0 `${folder.name}`}>{folder.name}</option>
               return <option value={folder.id}>{folder.name}</option>;
             })}
           </select>

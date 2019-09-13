@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import NotefulContext from '../NotefulContext';
+import Moment from 'react-moment'
 
 function deleteNoteRequest(noteId, callback) {
   fetch(`http://localhost:9090/notes/${noteId}`, {
@@ -33,7 +34,9 @@ export default class NoteItem extends Component {
         <Link to={`/note/${id}`}>
           <p>{name}</p>
         </Link>
-        <p>{modified}</p>
+        <p><Moment format="YYYY/MM/DD">
+                {modified}
+            </Moment></p>
         <button
           type='button'
           onClick={() => deleteNoteRequest(id, this.context.deleteNote)}
