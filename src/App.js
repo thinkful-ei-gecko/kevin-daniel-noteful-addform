@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import NotefulContext from './NotefulContext';
+import PropTypes from 'prop-types';
 import './App.css';
 import Header from './Components/Header';
 import Main from './Components/Main';
@@ -9,7 +11,6 @@ import FolderDetailedView from './Components/FolderDetailedView';
 import NoteList from './Components/NoteList';
 import NoteDetailedView from './Components/NoteDetailedView';
 import NotFound from './Components/NotFound';
-import NotefulContext from './NotefulContext';
 import AddNote from './Components/AddNote';
 import AddFolder from './Components/AddFolder';
 import BackButton from './Components/BackButton';
@@ -29,9 +30,7 @@ export default class App extends Component {
 
   handleDeleteNote = (noteId) => {
     const newNotes = this.state.notes.filter((note) => note.id !== noteId);
-    this.setState({
-      notes: newNotes,
-    });
+    this.setState({ notes: newNotes });
   };
 
   handleAddNote = (note) => {
@@ -53,9 +52,7 @@ export default class App extends Component {
         return response.json();
       })
       .then((data) => {
-        this.setState({
-          folders: data,
-        });
+        this.setState({ folders: data });
       })
       .catch((error) => alert(error));
   }
@@ -69,9 +66,7 @@ export default class App extends Component {
         return response.json();
       })
       .then((data) => {
-        this.setState({
-          notes: data,
-        });
+        this.setState({ notes: data });
       })
       .catch((error) => alert(error));
   }
@@ -92,32 +87,46 @@ export default class App extends Component {
 
     return (
       <div className="app">
-      <ErrorBoundary>
-        <Header />
-        <NotefulContext.Provider value={contextValue}>
-          <Sidebar>
-            <Switch>
-              <Route exact path="/" component={FolderList} />
-              <Route path="/folder/:folderId" component={FolderList} />
-              <Route path="/note/:noteId" component={FolderDetailedView} />
-              <Route path="/add-note" component={BackButton} />
-              <Route path="/add-folder" component={BackButton} />
-              <Route component={NotFound} />
-            </Switch>
-          </Sidebar>
-          <Main>
-            <Switch>
-              <Route exact path="/" component={NoteList} />
-              <Route path="/folder/:folderId" component={NoteList} />
-              <Route path="/note/:noteId" component={NoteDetailedView} />
-              <Route path="/add-note" component={AddNote} />
-              <Route path="/add-folder" component={AddFolder} />
-              <Route component={NotFound} />
-            </Switch>
-          </Main>
-        </NotefulContext.Provider>
+        <ErrorBoundary>
+          <Header />
+          <NotefulContext.Provider value={contextValue}>
+            <Sidebar>
+              <Switch>
+                <Route exact path="/" component={FolderList} />
+                <Route path="/folder/:folderId" component={FolderList} />
+                <Route path="/note/:noteId" component={FolderDetailedView} />
+                <Route path="/add-note" component={BackButton} />
+                <Route path="/add-folder" component={BackButton} />
+                <Route component={NotFound} />
+              </Switch>
+            </Sidebar>
+            <Main>
+              <Switch>
+                <Route exact path="/" component={NoteList} />
+                <Route path="/folder/:folderId" component={NoteList} />
+                <Route path="/note/:noteId" component={NoteDetailedView} />
+                <Route path="/add-note" component={AddNote} />
+                <Route path="/add-folder" component={AddFolder} />
+                <Route component={NotFound} />
+              </Switch>
+            </Main>
+          </NotefulContext.Provider>
         </ErrorBoundary>
       </div>
     );
   }
 }
+
+NotefulContext.Provider.propTypes = {
+  value: PropTypes.shape({
+    folders: PropTypes.array.isRequired,
+    notes: PropTypes.array.isRequired,
+    deleteNote: PropTypes.func.isRequired,
+    addNote: PropTypes.func.isRequired,
+    addFolder: PropTypes.func.isRequired,
+  }),
+};
+
+NotefulContext.Provider.propTypes = {
+  value: PropTypes.object.isRequired,
+};
