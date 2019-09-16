@@ -19,17 +19,15 @@ class NoteList extends Component {
 
     return (
       <>
-        <li className='main__note-list'>
+        <li className="main__note-list">
           {notes.map((note) => (
             <NoteItem note={note} key={note.id} />
           ))}
         </li>
-        <Link to = "/add-note">
-        < button className="add-button">
-              Add Note
-        </button>
-      </Link>
-    </>
+        <Link to="/add-note">
+          <button className="add-button">Add Note</button>
+        </Link>
+      </>
     );
   }
 }
@@ -38,5 +36,5 @@ export default withRouter(NoteList);
 
 NoteList.propTypes = {
   match: PropTypes.object.isRequired,
-  location: PropTypes.object.isRequired
+  location: PropTypes.object.isRequired,
 };

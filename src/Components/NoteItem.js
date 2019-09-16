@@ -31,21 +31,20 @@ export default class NoteItem extends Component {
     const { id, name, modified } = this.props.note;
 
     return (
-      <div className='main__note-item' key={id}>
+      <div className="main__note-item" key={id}>
         <Link to={`/note/${id}`}>
           <p>{name}</p>
         </Link>
-        <p><Moment format="YYYY/MM/DD">
-                {modified}
-            </Moment></p>
+        <p>
+          <Moment format="YYYY/MM/DD">{modified}</Moment>
+        </p>
         <button
-          type='button'
+          type="button"
           onClick={() => deleteNoteRequest(id, this.context.deleteNote)}
         >
           Delete note
         </button>
       </div>
-
     );
   }
 }
@@ -54,10 +53,10 @@ NoteItem.propTypes = {
   note: PropTypes.shape({
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    modified: PropTypes.string.isRequired
-  })
+    modified: PropTypes.string.isRequired,
+  }),
 };
 
 NoteItem.propTypes = {
-  note: PropTypes.object.isRequired
+  note: PropTypes.object.isRequired,
 };

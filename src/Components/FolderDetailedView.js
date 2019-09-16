@@ -13,12 +13,13 @@ class FolderDetailedView extends Component {
     const folder = folders.find(
       (folder) =>
         folder.id ===
-        notes.find((note) => note.id.toString() === match.params.noteId).folderId
+        notes.find((note) => note.id.toString() === match.params.noteId)
+          .folderId
     );
 
     return (
-      <div className='sidebar__folder-detailed-view' key={folder.id}>
-        <button type='button' onClick={() => history.goBack()}>
+      <div className="sidebar__folder-detailed-view" key={folder.id}>
+        <button type="button" onClick={() => history.goBack()}>
           Go back
         </button>
         <h2>{folder.name}</h2>
@@ -31,5 +32,5 @@ export default withRouter(FolderDetailedView);
 
 FolderDetailedView.propTypes = {
   match: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
 };

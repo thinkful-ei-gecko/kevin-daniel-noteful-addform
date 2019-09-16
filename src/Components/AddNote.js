@@ -90,7 +90,6 @@ export default class AddNote extends Component {
     }
   }
 
-
   render() {
     const { folders } = this.context;
 
@@ -133,7 +132,11 @@ export default class AddNote extends Component {
             <option value={''}>...</option>
             {folders.map((folder, index) => {
               // return <option value={folder.id} selected={index===0 `${folder.name}`}>{folder.name}</option>
-              return <option value={folder.id} key={index}>{folder.name}</option>;
+              return (
+                <option value={folder.id} key={index}>
+                  {folder.name}
+                </option>
+              );
             })}
           </select>
           {this.state.folder.touched && (

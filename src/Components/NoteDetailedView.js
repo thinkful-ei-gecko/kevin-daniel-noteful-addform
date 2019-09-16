@@ -30,15 +30,17 @@ class NoteDetailedView extends Component {
   render() {
     const { notes, deleteNote } = this.context;
     const { match } = this.props;
-    const note = notes.find((note) => note.id.toString() === match.params.noteId);
+    const note = notes.find(
+      (note) => note.id.toString() === match.params.noteId
+    );
 
     return (
-      <div className='main__note-detailed-view' key={note.id}>
+      <div className="main__note-detailed-view" key={note.id}>
         <p>{note.name}</p>
         <p>{note.modified}</p>
-        <Link to='/'>
+        <Link to="/">
           <button
-            type='button'
+            type="button"
             onClick={() => deleteNoteRequest(note.id, deleteNote)}
           >
             Delete note

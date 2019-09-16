@@ -8,15 +8,15 @@ class FolderItem extends Component {
     const { location, folder } = this.props;
 
     return (
-      <div className='folder-item'>
+      <div className="folder-item">
         <Link to={`/folder/${folder.id}`}>
           {location.pathname.slice(8) === folder.id && (
-            <button type='button' className='folder__button--active'>
+            <button type="button" className="folder__button--active">
               {folder.name}
             </button>
           )}
           {location.pathname.slice(8) !== folder.id && (
-            <button type='button'>{folder.name}</button>
+            <button type="button">{folder.name}</button>
           )}
         </Link>
       </div>
@@ -28,5 +28,5 @@ export default withRouter(FolderItem);
 
 FolderItem.propTypes = {
   location: PropTypes.object.isRequired,
-  folder: PropTypes.object.isRequired
+  folder: PropTypes.object.isRequired,
 };
